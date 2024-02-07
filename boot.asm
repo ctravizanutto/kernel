@@ -1,11 +1,28 @@
-ORG 0X7C00
+ORG 0
 BITS 16
 
-start:
+; bios parameter block 
+_start:
+    jmp short step1
+    nop
+times 33 db 0
+
+step1:
+    jmp 0x7c0:step2
+
+step2:
+    cli                                 ; clear interrupts
+    mov ax, 0x7C0                       
+    mov ds, ax                          ; set data segment register to 0x7C0
+    mov es, ax                          ; set extra segment register to 0x7C0
+    mov ax, 0x0                         
+    mov ss, ax                          ; set stack segment register to 0x0 
+    mov sp, 0x7c00
+    sti                                 ; enble interrupts
+
     mov si, message
     call print
     jmp $
-
 
 print:
     mov bx, 0
