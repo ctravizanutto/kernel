@@ -76,12 +76,5 @@ void kernel_main()
 
     // initialize interrupt descriptor table
     idt_init();
-    
-
-    void* ptr = kmalloc(50);
-    kfree(ptr);
-    void* ptr2 = kmalloc(5000);
-
-    if (ptr || ptr2);
-
+    enable_interrupts();
 }
