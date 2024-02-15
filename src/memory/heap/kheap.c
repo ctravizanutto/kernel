@@ -3,6 +3,7 @@
 #include "kernel.h"
 #include "heap.h"
 #include "config.h"
+#include "memory.h"
 
 struct heap kheap;
 struct heap_table kheap_table;
@@ -28,4 +29,13 @@ void* kmalloc(size_t size)
 void kfree(void* ptr)
 {
     heap_free(&kheap, ptr);
+}
+
+void* kzalloc(size_t size)
+{
+    void* ptr = kmalloc(size);
+    if (ptr) {
+        memset(ptr, 0, size);
+    }
+    return ptr;
 }
