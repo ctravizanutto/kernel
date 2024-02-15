@@ -78,8 +78,12 @@ void kernel_main()
     kheap_init();
 
     // setup paging
-    kernel_chunck = pagign_new_4gb(PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
-    paging_switch(pagign_4gb_chunck_get_directory(kernel_chunck));
+    kernel_chunck = paging_new_4gb(PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
+    paging_switch(paging_4gb_chunck_get_directory(kernel_chunck));
+    
+    char* ptr = kzalloc(4096);
+    paging_set(paging_4gb_chunck_get_directory(kernel_chunck), (void*)0x1000, (uint32_t)ptr | PAGING_ACCESS_FROM_ALL | PAGING_IS_PRESENT | PAGING_IS_WRITABLE);
+
     enable_paging();
 
     // initialize interrupt descriptor table
