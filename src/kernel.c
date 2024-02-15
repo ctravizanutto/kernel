@@ -6,6 +6,7 @@
 #include "idt/idt.h"
 #include "memory/heap/kheap.h"
 #include "paging/paging.h"
+#include "disk/disk.h"
 
 uint16_t* video_mem = 0;
 uint16_t terminal_row = 0;
@@ -72,21 +73,23 @@ static struct paging_4gb_chunck* kernel_chunck = 0;
 void kernel_main()
 {
     terminal_initialize();
-    print("Hello world!\n");
+    print("hello world\n");
     
     // initiliaze heap
     kheap_init();
 
-    // setup paging
-    kernel_chunck = paging_new_4gb(PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
-    paging_switch(paging_4gb_chunck_get_directory(kernel_chunck));
-    
-    char* ptr = kzalloc(4096);
-    paging_set(paging_4gb_chunck_get_directory(kernel_chunck), (void*)0x1000, (uint32_t)ptr | PAGING_ACCESS_FROM_ALL | PAGING_IS_PRESENT | PAGING_IS_WRITABLE);
-
-    enable_paging();
+    disk_search_and_init();
 
     // initialize interrupt descriptor table
     idt_init();
+
+    // setup paging
+    {
+        kernel_chunck = paging_new_4gb(PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
+        paging_switch(paging_4gb_chunck_get_directory(kernel_chunck));
+    
+        enable_paging();
+    }
+    
     enable_interrupts();
 }

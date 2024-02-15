@@ -5,7 +5,7 @@ global insw
 global outb
 global outw
 
-isnb:
+insb:
     push ebp
     mov ebp, esp
 
@@ -16,7 +16,7 @@ isnb:
     pop ebp
     ret
 
-isnw:
+insw:
     push ebp
     mov ebp, esp
 
