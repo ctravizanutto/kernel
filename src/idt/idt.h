@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 void idt_init();
-void enable_interrupts();
-void disable_interrupts();
+extern void enable_interrupts();
+extern void disable_interrupts();
 
 
 struct idt_desc
