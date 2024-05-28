@@ -37,6 +37,7 @@ void terminal_writechar(char c, char colour)
         terminal_row += 1;
     }
 }
+
 void terminal_initialize()
 {
     video_mem = (uint16_t*)(0xB8000);
@@ -48,7 +49,6 @@ void terminal_initialize()
         }
     }   
 }
-
 
 size_t strlen(const char* str)
 {
@@ -67,7 +67,6 @@ void print(const char* str)
         terminal_writechar(str[i], 15);
     }
 }
-
 
 static struct paging_4gb_chunck* kernel_chunck = 0;
 void kernel_main()
