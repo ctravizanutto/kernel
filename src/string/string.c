@@ -11,7 +11,7 @@ size_t strlen(const char *str) {
 
 size_t strnlen(const char *str, const size_t max) {
     size_t len = 0;
-    while (str[len]) {
+    while (str[len] && len < max) {
         len++;
     }
 
